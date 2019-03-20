@@ -1,8 +1,10 @@
+from component.sensor.response import Response
+
 
 class Storage(object):
     data = {}
 
-    def change_values(self, node_name, params):
+    def set(self, node_name, params):
         if not node_name in self.data:
             self.data[node_name] = {}
 
@@ -12,17 +14,12 @@ class Storage(object):
     def get(self, node_name, key):
         if node_name in self.data:
             if key in self.data[node_name]:
-                return SensorResponse(self.data[node_name][key])
+                return Response(self.data[node_name][key])
             else:
-                return SensorResponse("Nie mam takich danych", 400)
+                return Response("I have no such data", 400)
 
-        return SensorResponse("Nie znam pomieszczenia", 400)
+        return Response("I do not know this room", 400)
 
+    def get_all(self):
+        return self.data
 
-class SensorResponse(object):
-    def __init__(self, value="", code=200):
-        self.code = code
-        self.value = "" if value is None else value
-
-    def __str__(self):
-        return "kod: "+str(self.code)+", value: "+str(self.value)

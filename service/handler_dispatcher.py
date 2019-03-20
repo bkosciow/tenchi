@@ -3,13 +3,13 @@
 
 class HandlerDispatcher(object):
     """class HandlerDispatcher"""
-    def __init__(self, storage, widgets):
-        self.widgets = widgets
+    def __init__(self, storage):
+        # self.widgets = widgets
         self.storage = storage
 
     def set_sensor_data(self, node, data):
-        if node in self.widgets:
-            self.storage.change_values(node, data)
+        # if node in self.widgets:
+        self.storage.set(node, data)
 
     # def set_relay_states(self, node, states):
     #     """get data from relay"""
