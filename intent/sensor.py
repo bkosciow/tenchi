@@ -19,6 +19,14 @@ class SensorIntent(object):
         response.data = request.data
         response.intent_name = request.intent_name
 
+        self._update_request_and_last(request)
+
+        sensor_response = self.storage.get(request.data['room'], request.data['sensor'])
+        response.text = self._get_text(request.data, sensor_response)
+
+        return response
+
+    def _update_request_and_last(self, request):
         if request.data['room'] == '':
             request.data['room'] = self.last['room']
 
@@ -27,11 +35,6 @@ class SensorIntent(object):
 
         self.last['room'] = request.data['room']
         self.last['sensor'] = request.data['sensor']
-
-        sensor_response = self.storage.get(request.data['room'], request.data['sensor'])
-        response.text = self._get_text(request.data, sensor_response)
-
-        return response
 
     def _load_texts(self):
         self.texts = {
