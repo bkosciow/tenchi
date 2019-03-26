@@ -4,11 +4,9 @@
 class HandlerDispatcher(object):
     """class HandlerDispatcher"""
     def __init__(self, storage):
-        # self.widgets = widgets
         self.storage = storage
 
     def set_sensor_data(self, node, data):
-        # if node in self.widgets:
         self.storage.set(node, data)
 
     # def set_relay_states(self, node, states):

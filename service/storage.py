@@ -5,7 +5,7 @@ class Storage(object):
     data = {}
 
     def set(self, node_name, params):
-        if not node_name in self.data:
+        if node_name not in self.data:
             self.data[node_name] = {}
 
         for p in params:
