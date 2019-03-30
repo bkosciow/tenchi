@@ -1,10 +1,8 @@
 from component.intent.response import Response as IntentResponse
-from service.storage import Storage
+from service.storage.storage import Storage
 
 
 class SensorIntent(object):
-    # texts = {}
-
     def __init__(self):
         self.storage = Storage()
         self.last = {

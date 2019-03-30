@@ -6,7 +6,7 @@ class NodeOneHandler(HandlerInterface):
     def handle(self, message):
         if message is not None and 'event' in message:
             if message['event'] == 'dht.status':
-                self.worker.set_sensor_data(
+                self.worker.set(
                     message['node'],
                     {
                         'temp': str(message['parameters']['temp']),
@@ -14,24 +14,24 @@ class NodeOneHandler(HandlerInterface):
                     }
                 )
             if message['event'] == 'detect.light':
-                self.worker.set_sensor_data(
+                self.worker.set(
                     message['node'],
                     {'light': True}
                 )
 
             if message['event'] == 'detect.dark':
-                self.worker.set_sensor_data(
+                self.worker.set(
                     message['node'],
                     {'light': False}
                 )
             if message['event'] == 'pir.movement':
-                self.worker.set_sensor_data(
+                self.worker.set(
                     message['node'],
                     {'pir': True}
                 )
 
             if message['event'] == 'pir.nomovement':
-                self.worker.set_sensor_data(
+                self.worker.set(
                     message['node'],
                     {'pir': False}
                 )

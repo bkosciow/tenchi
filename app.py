@@ -9,13 +9,16 @@ from flask import Flask
 from flask import request
 from flask import jsonify
 from pprint import pprint
-from service.storage import Storage
 from service.intent_dispatcher import IntentDispatcher
 from intent.sensor import SensorIntent
 from component.intent.request import Request as IntentRequest
 from component.intent.response import Response as IntentResponse
 from service.sensor_listener import SensorListener
 from service.config import Config
+from service.storage.dictionary_engine import DictionaryEngine
+from service.storage.storage import Storage
+
+Storage.set_engine(DictionaryEngine())
 
 Config.load_config()
 
