@@ -10,7 +10,7 @@ class SensorListener(object):
     def __init__(self):
         config = Config()
         self.storage = Storage()
-        msg = Message(config.get('node_name'))
+        msg = Message(config.get('node.ip'))
 
         broadcast_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         broadcast_socket.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)

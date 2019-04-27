@@ -8,6 +8,7 @@ sys.path.append(os.path.join(ROOT_DIR, '..'))
 from flask import Flask
 from flask import request
 from flask import jsonify
+from flask_basicauth import BasicAuth
 from pprint import pprint
 from service.intent_dispatcher import IntentDispatcher
 from intent.sensor import SensorIntent
@@ -21,28 +22,24 @@ from service import language
 import i18n
 i18n.load_path.append('./translation')
 
-# i18n.set('locale', 'en_US')
-# print(i18n.t('main.room.no_data'))
-# print(i18n.t('main.intent.not_supported', intent='Miau'))
-#
-# i18n.set('locale', 'pl_PL')
-# print(i18n.t('main.room.no_data'))
-# print(i18n.t('main.intent.not_supported', intent='Miau'))
-
-# print(i18n.t('main.sensor.temperature', data=12))
-# exit()
 Storage.set_engine(DictionaryEngine())
 
 Config.load_config()
+config = Config()
 
 intents = IntentDispatcher()
 intents.add('sensors', SensorIntent())
 
 app = Flask(__name__)
+app.config['BASIC_AUTH_USERNAME'] = config.get('assistant.login')
+app.config['BASIC_AUTH_PASSWORD'] = config.get('assistant.password')
+basic_auth = BasicAuth(app)
+
 sensorListener = SensorListener()
 
 
 @app.route("/tenchi", methods=['GET', 'POST'])
+@basic_auth.required
 def tenchi():
     content = request.get_json()
     pprint(content['queryResult']['intent']['displayName'])
@@ -93,7 +90,7 @@ def ping():
 
 if __name__ == "__main__":
     app.run(
-        host='0.0.0.0', #config.get('ip', 'general'),
-        port=7777, #config.get('port', 'general'),
+        host=config.get('ip'),
+        port=config.get('port'),
         debug=True
     )

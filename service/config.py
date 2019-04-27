@@ -1,21 +1,21 @@
+from configparser import ConfigParser
 
 
 class Config(object):
     data = {}
+    file = "config.ini"
 
     def __init__(self):
         pass
 
     def get(self, key, default=None):
-        if key in self.data:
-            return self.data[key]
-
-        return default
+        section = 'general'
+        if "." in key:
+            section, key = key.split(".")
+        return self.data.get(section, key) if self.data.get(section, key) else default
 
     @classmethod
     def load_config(cls):
-        cls.data = {
-            'node_name': 'pc_assist',
-            'ip': '192.168.1.255',
-            'port': 5053
-        }
+        cls.data = ConfigParser()
+        cls.data.read(cls.file)
+

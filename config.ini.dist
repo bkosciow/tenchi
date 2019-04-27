@@ -1,0 +1,14 @@
+[general]
+ip=0.0.0.0
+port=7777
+
+[node]
+ip=192.168.1.255
+port=5053
+name=pc_assist
+
+[assistant]
+login=rambo
+password=rambo
+
+
