@@ -1,5 +1,6 @@
 from component.intent.response import Response as IntentResponse
 from service.storage.storage import Storage
+import i18n
 
 
 class SensorIntent(object):
@@ -9,7 +10,6 @@ class SensorIntent(object):
             'room': '',
             'sensor': '',
         }
-        self._load_texts()
 
     def handle(self, request):
         response = IntentResponse()
@@ -34,29 +34,19 @@ class SensorIntent(object):
         self.last['room'] = request.data['room']
         self.last['sensor'] = request.data['sensor']
 
-    def _load_texts(self):
-        self.texts = {
-            'default': "I don't know",
-            'temp': "Temperature is {}",
-            'humi': "Humidity is {} percent",
-            'isLight': 'There is light',
-            'isDark': 'There is dark',
-            'isMovement': 'There is movement',
-            'noMovement': 'No movement detected'
-        }
-
     def _get_text(self, data, sensor_response):
         text_response = ""
         if sensor_response.code == 400:
             text_response = sensor_response.value
         else:
             if data['sensor'] == 'temp':
-                text_response = self.texts[data['sensor']].format(str(sensor_response.value))
+                text_response = i18n.t("main.sensor.temperature", value=sensor_response.value)
             elif data['sensor'] == 'humi':
-                text_response = self.texts[data['sensor']].format(str(sensor_response.value))
+                text_response = i18n.t("main.sensor.humidity", value=sensor_response.value)
             elif data['sensor'] == "light":
-                text_response = self.texts['isLight'] if sensor_response.value else self.texts['isDark']
+                text_response = i18n.t("main.sensor.light.on") if sensor_response.value else i18n.t("main.sensor.light.off")
             elif data['sensor'] == "pir":
-                text_response = self.texts['isMovement'] if sensor_response.value else self.texts['noMovement']
+                text_response = i18n.t("main.sensor.movement.detected") if sensor_response.value else i18n.t(
+                    "main.sensor.movement.undetected")
 
         return text_response

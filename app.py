@@ -17,7 +17,20 @@ from service.sensor_listener import SensorListener
 from service.config import Config
 from service.storage.dictionary_engine import DictionaryEngine
 from service.storage.storage import Storage
+from service import language
+import i18n
+i18n.load_path.append('./translation')
 
+# i18n.set('locale', 'en_US')
+# print(i18n.t('main.room.no_data'))
+# print(i18n.t('main.intent.not_supported', intent='Miau'))
+#
+# i18n.set('locale', 'pl_PL')
+# print(i18n.t('main.room.no_data'))
+# print(i18n.t('main.intent.not_supported', intent='Miau'))
+
+# print(i18n.t('main.sensor.temperature', data=12))
+# exit()
 Storage.set_engine(DictionaryEngine())
 
 Config.load_config()
@@ -33,19 +46,19 @@ sensorListener = SensorListener()
 def tenchi():
     content = request.get_json()
     pprint(content['queryResult']['intent']['displayName'])
-    pprint(content['queryResult']['languageCode'])
     pprint(content['queryResult']['parameters'])
 
     intent_request = IntentRequest()
     intent_request.intent_name = content['queryResult']['intent']['displayName']
-    intent_request.lang = content['queryResult']['languageCode']
+    intent_request.lang = language.normalize(content['queryResult']['languageCode'])
     intent_request.data = content['queryResult']['parameters']
+    i18n.set('locale', intent_request.lang)
 
     if intents.supports(intent_request):
         intent_response = intents.handle(intent_request)
     else:
         intent_response = IntentResponse()
-        intent_response.text = "Intent {} not supported".format(intent_request.intent_name)
+        intent_response.text = i18n.t('main.intent.not_supported', intent=intent_request.intent_name)
 
     response = {}
     response["payload"] = {
@@ -66,42 +79,11 @@ def tenchi():
     print(response)
     return jsonify(response)
 
+
 @app.route("/storage")
 def storage():
     storage = Storage()
     return jsonify(storage.get_all())
-
-# @app.route("/mokona", methods=['GET', 'POST'])
-# def hello():
-#     content = request.get_json()
-#     intentName = content['queryResult']['intent']['displayName']
-#     pprint(content['queryResult']['intent']['displayName'])
-#     pprint(content['queryResult']['parameters'])
-#     data = content['queryResult']['parameters']
-#
-#     if intents.supports(intentName):
-#         txt = intents.handle(intentName, data)
-#         # txt = "test"
-#     else:
-#         txt = "Intent {} not supported".format(intentName)
-#         print(txt)
-#
-#     response = {}
-#     response["fulfillmentText"] = txt
-#     response["payload"] = {
-#         "google": {
-#             "richResponse": {
-#                 "items": [
-#                     {
-#                         "simpleResponse": {
-#                             "textToSpeech": txt
-#                         }
-#                     }
-#                 ]
-#             }
-#         }
-#     }
-#     return jsonify(response)
 
 
 @app.route("/ping")

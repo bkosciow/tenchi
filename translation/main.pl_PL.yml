@@ -1,0 +1,17 @@
+pl_PL:
+  intent:
+    not_supported: Intent %{intent} nie jest obsługiwany
+  room:
+    not_known: Nie znam takiego pomieszczenia
+    no_data: Nie mam takich danych
+
+  sensor:
+    default: Nie wiem
+    temperature: Temperatura wynosi %{value} stopni
+    humidity: Wilgotność jest na poziomie %{value} procent
+    light:
+      enabled: Jest jasno
+      disabled: Jest ciemno
+    movement:
+      detected: Wykryto ruch
+      undetected: Nie wykryto ruchu

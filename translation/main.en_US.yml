@@ -1,0 +1,17 @@
+en_US:
+  intent:
+    not_supported: Intent %{intent} not supported
+  room:
+    not_known: I do not know this room
+    no_data: I have no such data
+
+  sensor:
+    default: I don't know
+    temperature: Temperature is %{value}
+    humidity: Humidity is %{value} percent
+    light:
+      enabled: There is light
+      disabled: There is dark
+    movement:
+      detected: There is movement
+      undetected: No movement

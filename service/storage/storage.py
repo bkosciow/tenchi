@@ -1,5 +1,6 @@
 from component.sensor.response import Response
 import abc
+import i18n
 
 
 class StorageEngineInterface(metaclass=abc.ABCMeta):
@@ -28,13 +29,13 @@ class Storage(object):
 
     def get(self, node_name, key):
         if not self.engine.exists(node_name):
-            return Response("I do not know this room", 400)
+            return Response(i18n.t("main.room.not_known"), 400)
 
         data = self.engine.get(node_name)
         if key in data:
             return Response(data[key])
         else:
-            return Response("I have no such data", 400)
+            return Response(i18n.t("main.room.no_data"), 400)
 
     def get_all(self):
         return self.engine.data
