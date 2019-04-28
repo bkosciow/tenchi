@@ -1,9 +1,10 @@
 from component.intent.response import Response as IntentResponse
 from service.storage.storage import Storage
+from intent.intent_interface import IntentInterface
 import i18n
 
 
-class SensorIntent(object):
+class SensorIntent(IntentInterface):
     def __init__(self):
         self.storage = Storage()
         self.last = {
@@ -12,10 +13,7 @@ class SensorIntent(object):
         }
 
     def handle(self, request):
-        response = IntentResponse()
-        response.lang = request.lang
-        response.data = request.data
-        response.intent_name = request.intent_name
+        response = IntentResponse(request)
 
         self._update_request_and_last(request)
 

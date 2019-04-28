@@ -15,3 +15,7 @@ pl_PL:
     movement:
       detected: Wykryto ruch
       undetected: Nie wykryto ruchu
+
+  relay:
+    enabled: włączono
+    disabled: wyłączono

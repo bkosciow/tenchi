@@ -15,3 +15,7 @@ en_US:
     movement:
       detected: There is movement
       undetected: No movement
+
+  relay:
+    enabled: enabled
+    disabled: disabled

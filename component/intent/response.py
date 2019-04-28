@@ -1,10 +1,10 @@
 
 
 class Response(object):
-    def __init__(self):
-        self.intent_name = ''
-        self.lang = ''
-        self.data = ''
+    def __init__(self, request=None):
+        self.intent_name = request.intent_name if request else ''
+        self.lang = request.lang if request else ''
+        self.data = request.data if request else ''
         self._speech = ''
         self._text = ''
 

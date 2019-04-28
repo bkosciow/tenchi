@@ -12,6 +12,7 @@ from flask_basicauth import BasicAuth
 from pprint import pprint
 from service.intent_dispatcher import IntentDispatcher
 from intent.sensor import SensorIntent
+from intent.relay import RelayIntent
 from component.intent.request import Request as IntentRequest
 from component.intent.response import Response as IntentResponse
 from service.sensor_listener import SensorListener
@@ -29,6 +30,7 @@ config = Config()
 
 intents = IntentDispatcher()
 intents.add('sensors', SensorIntent())
+intents.add('relays', RelayIntent())
 
 app = Flask(__name__)
 app.config['BASIC_AUTH_USERNAME'] = config.get('assistant.login')
