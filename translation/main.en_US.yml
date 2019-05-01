@@ -19,3 +19,5 @@ en_US:
   relay:
     enabled: enabled
     disabled: disabled
+    is_enabled: it is enabled
+    is_disabled: it is disabled

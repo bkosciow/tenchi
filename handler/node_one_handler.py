@@ -35,3 +35,9 @@ class NodeOneHandler(HandlerInterface):
                     message['node'],
                     {'pir': False}
                 )
+
+            if message['event'] == 'channels.response':
+                self.worker.set(
+                    message['node'],
+                    {'relay': message['response']}
+                )

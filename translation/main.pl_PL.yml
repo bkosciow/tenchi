@@ -19,3 +19,5 @@ pl_PL:
   relay:
     enabled: włączono
     disabled: wyłączono
+    is_enabled: jest włączone
+    is_disabled: jest wyłączone

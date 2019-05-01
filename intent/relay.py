@@ -25,6 +25,25 @@ class RelayIntent(IntentInterface):
 
     def handle(self, request):
         response = IntentResponse(request)
+
+        if request.data['action'] == 'enabled_state':
+            response = self._state(request, response)
+        else:
+            response = self._toggle(request, response)
+
+        return response
+
+    def _state(self, request, response):
+        sensor_response = self.storage.get(request.data['room'], 'relay')
+        if sensor_response.code == 400:
+            response.text = sensor_response.value
+        else:
+            response.text = i18n.t("main.relay.is_enabled") if sensor_response.value[0] \
+                else i18n.t("main.relay.is_disabled")
+
+        return response
+
+    def _toggle(self, request, response):
         response.text = i18n.t("main.relay.enabled") if request.data['action'] == 'enable' \
             else i18n.t("main.relay.disabled")
 
