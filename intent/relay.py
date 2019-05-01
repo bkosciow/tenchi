@@ -26,6 +26,8 @@ class RelayIntent(IntentInterface):
     def handle(self, request):
         response = IntentResponse(request)
 
+        self._update_request_and_last(request)
+
         if request.data['action'] == 'enabled_state':
             response = self._state(request, response)
         else:
@@ -33,8 +35,22 @@ class RelayIntent(IntentInterface):
 
         return response
 
+    def _update_request_and_last(self, request):
+        if request.data['room'] == '':
+            request.data['room'] = self.storage.get_last_value('room')
+
+        if request.data['device'] == '':
+            request.data['device'] = self.storage.get_last_value('device')
+
+        if request.data['action'] == '':
+            request.data['action'] = self.storage.get_last_value('action')
+
+        self.storage.set_last_value('room', request.data['room'])
+        self.storage.set_last_value('device', request.data['device'])
+        self.storage.set_last_value('action', request.data['action'])
+
     def _state(self, request, response):
-        sensor_response = self.storage.get(request.data['room'], 'relay')
+        sensor_response = self.storage.get_sensor_response(request.data['room'], 'relay')
         if sensor_response.code == 400:
             response.text = sensor_response.value
         else:

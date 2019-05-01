@@ -19,6 +19,3 @@ class SensorListener(object):
         svr = Server(msg)
         svr.add_handler('NodeOne', NodeOneHandler(self.storage))
         svr.start()
-
-    def get(self, node_name, key):
-        return self.storage.get(node_name, key)
