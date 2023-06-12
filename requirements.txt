@@ -3,5 +3,5 @@ message_listener==0.1.2
 iot_message==0.1.0
 python-i18n==0.3.6
 Flask-BasicAuth==0.2.0
-PyYAML==5.1
+PyYAML==5.4
 pycryptodome==3.8.1
